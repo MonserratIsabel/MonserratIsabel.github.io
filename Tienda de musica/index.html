@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>SoundVerse - Marketplace de Álbumes</title>
+    <style>
+        :root {
+            --primary-color: #ff4d8d;
+            --secondary-color: #8e44ad;
+            --dark-color: #121212;
+            --light-color: #f8f9fa;
+            --accent-color: #00e5ff;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        body {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+        
+        .brand-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar {
+            background-color: rgba(18, 18, 18, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-link {
+            color: var(--light-color) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+            color: white;
+        }
+        
+        .card {
+            background-color: #1e1e1e;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+        
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .card-text {
+            color: #b3b3b3;
+        }
+        
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            z-index: 2;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .artist-card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .artist-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .artist-img {
+            height: 200px;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: filter 0.3s ease;
+        }
+        
+        .artist-card:hover .artist-img {
+            filter: grayscale(0%);
+        }
+        
+        .artist-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .testimonial-card {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        footer {
+            background-color: #0a0a0a;
+            padding: 50px 0 20px;
+        }
+        
+        .social-icon {
+            font-size: 1.5rem;
+            color: var(--light-color);
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            color: white;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 50px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -10px;
+            left: 25%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .newsletter-form {
+            background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-control {
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: white;
+        }
+        
+        .form-control:focus {
+            background-color: #2a2a2a;
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(255, 77, 141, 0.25);
+        }
+        
+        /* Modal personalizado */
+        .modal-content {
+            background-color: #1e1e1e;
+            color: white;
+            border: 1px solid var(--primary-color);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid #3a3a3a;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #3a3a3a;
+        }
+        
+        .close {
+            color: white;
+        }
+        
+        /* Página de compra */
+        .purchase-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .purchase-card {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Animaciones */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 77, 141, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 77, 141, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 77, 141, 0); }
+        }
+        
+        /* Efecto parallax */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-3 sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-vinyl-fill me-2" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                <span class="brand-title">SoundVerse</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#albumes">Álbumes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#artistas">Artistas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#vender">Vender</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonios">Testimonios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                </ul>
+                <div class="ms-lg-3 mt-3 mt-lg-0">
+                    <a href="#vender" class="btn btn-gradient btn-sm">Sube tu álbum</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section parallax" id="inicio">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="display-3 fw-bold mb-4">Descubre y comparte música extraordinaria</h1>
+                    <p class="lead mb-4">SoundVerse es el marketplace donde los amantes de la música encuentran álbumes exclusivos y los artistas independientes pueden vender sus creaciones directamente a sus fans.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#albumes" class="btn btn-gradient btn-lg px-4">Explorar álbumes</a>
+                        <a href="#vender" class="btn btn-outline-light btn-lg px-4">Vender música</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Colección de vinilos" class="img-fluid rounded-4 floating">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Albums -->
+    <section class="py-5" id="albumes">
+        <div class="container py-5">
+            <h2 class="text-center section-title">Álbumes Destacados</h2>
+            <div class="row g-4">
+                <!-- Álbum 1 -->
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="card h-100">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Álbum French Exit">
+                            <span class="position-absolute top-0 end-0 m-2 price-tag">$19.99</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">French Exit</h5>
+                            <p class="card-text mb-2">TV Girl</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-half text-warning"></i>
+                                    <span class="ms-1">4.5</span>
+                                </div>
+                                <span class="badge bg-primary">Indie Pop</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                            <a href="#purchase-french-exit" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#purchaseModal"><i class="bi bi-cart-plus"></i> Comprar</a>
+                            <a href="#details-french-exit" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#detailsModal"><i class="bi bi-info-circle"></i> Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Álbum 2 -->
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="card h-100">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1413&q=80" class="card-img-top" alt="Álbum Who Really Cares">
+                            <span class="position-absolute top-0 end-0 m-2 price-tag">$24.99</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Who Really Cares</h5>
+                            <p class="card-text mb-2">TV Girl</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <span class="ms-1">4.0</span>
+                                </div>
+                                <span class="badge bg-primary">Indie Pop</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                            <a href="#purchase-who-really-cares" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#purchaseModal"><i class="bi bi-cart-plus"></i> Comprar</a>
+                            <a href="#details-who-really-cares" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#detailsModal"><i class="bi bi-info-circle"></i> Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Álbum 3 -->
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="card h-100">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Álbum Death of a Party">
+                            <span class="position-absolute top-0 end-0 m-2 price-tag">$17.99</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Death of a Party</h5>
+                            <p class="card-text mb-2">TV Girl</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <span class="ms-1">5.0</span>
+                                </div>
+                                <span class="badge bg-primary">Indie Pop</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                            <a href="#purchase-death-party" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#purchaseModal"><i class="bi bi-cart-plus"></i> Comprar</a>
+                            <a href="#details-death-party" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#detailsModal"><i class="bi bi-info-circle"></i> Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Álbum 4 -->
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="card h-100">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Álbum The Night In">
+                            <span class="position-absolute top-0 end-0 m-2 price-tag">$21.99</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">The Night In...</h5>
+                            <p class="card-text mb-2">TV Girl</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rating">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <span class="ms-1">4.0</span>
+                                </div>
+                                <span class="badge bg-primary">Indie Pop</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                            <a href="#purchase-night-in" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#purchaseModal"><i class="bi bi-cart-plus"></i> Comprar</a>
+                            <a href="#details-night-in" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#detailsModal"><i class="bi bi-info-circle"></i> Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-gradient px-4">Ver todos los álbumes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Detalles -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Detalles del Álbum</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="img-fluid rounded" alt="Álbum">
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="mb-3">French Exit</h3>
+                            <h5 class="text-primary mb-4">TV Girl</h5>
+                            <div class="mb-4">
+                                <span class="badge bg-primary me-2">Indie Pop</span>
+                                <span class="price-tag">$19.99</span>
+                            </div>
+                            <p class="mb-4">French Exit es el álbum debut de TV Girl, lanzado en 2014. Este trabajo presenta una mezcla única de samples vintage con letras modernas y melodías pegajosas.</p>
+                            <h5 class="mb-3">Lista de canciones:</h5>
+                            <ol class="list-group list-group-numbered mb-4">
+                                <li class="list-group-item bg-transparent text-light border-secondary">Come When You Call</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Birds Don't Sing</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Lovers Rock</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">The Blonde</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Cigarettes Out the Window</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Pantyhose</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">(Do the) Act Like You Never Met Me</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Her and Her Friend</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Talk to Strangers</li>
+                                <li class="list-group-item bg-transparent text-light border-secondary">Louise</li>
+                            </ol>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-gradient" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#purchaseModal">
+                                    <i class="bi bi-cart-plus"></i> Comprar ahora
+                                </button>
+                                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Compra -->
+    <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="purchaseModalLabel">Completar Compra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <h4>French Exit - TV Girl</h4>
+                        <p class="text-muted">Álbum digital • $19.99</p>
+                    </div>
+                    <form id="purchaseForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Número de tarjeta</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="expiry" class="form-label">Fecha de expiración</label>
+                                <input type="text" class="form-control" id="expiry" placeholder="MM/AA" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre en la tarjeta</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-gradient">Confirmar Compra</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Artists -->
+    <section class="py-5 bg-dark" id="artistas">
+        <div class="container py-5">
+            <h2 class="text-center section-title">Artistas Destacados</h2>
+            <p class="text-center mb-5">Descubre a los talentosos artistas que ofrecen su música directamente a ti</p>
+            
+            <div class="row g-4">
+                <!-- Artista 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="artist-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="artist-img w-100" alt="TV Girl">
+                            <div class="artist-name">TV Girl</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artista 2 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="artist-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="artist-img w-100" alt="The Strokes">
+                            <div class="artist-name">The Strokes</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artista 3 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="artist-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="artist-img w-100" alt="Arctic Monkeys">
+                            <div class="artist-name">Arctic Monkeys</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artista 4 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="artist-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="artist-img w-100" alt="Lana Del Rey">
+                            <div class="artist-name">Lana Del Rey</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-outline-light px-4">Explorar todos los artistas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sell Your Album -->
+    <section class="py-5" id="vender">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="section-title">Vende tu música directamente a tus fans</h2>
+                    <p class="lead">SoundVerse ofrece a los artistas independientes una plataforma para vender sus álbumes sin intermediarios.</p>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="me-4">
+                            <i class="bi bi-currency-dollar feature-icon"></i>
+                        </div>
+                        <div>
+                            <h4>Gana más</h4>
+                            <p>Mantén hasta el 90% de tus ganancias, mucho más que en plataformas tradicionales.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex mb-4">
+                        <div class="me-4">
+                            <i class="bi bi-people feature-icon"></i>
+                        </div>
+                        <div>
+                            <h4>Conecta con fans</h4>
+                            <p>Construye una relación directa con tu audiencia y controla tu distribución.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex">
+                        <div class="me-4">
+                            <i class="bi bi-graph-up feature-icon"></i>
+                        </div>
+                        <div>
+                            <h4>Analíticas detalladas</h4>
+                            <p>Accede a datos sobre tus ventas y seguidores para tomar mejores decisiones.</p>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="btn btn-gradient mt-4 px-4">Empezar a vender</a>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-body p-5">
+                            <h3 class="card-title text-center mb-4">Sube tu álbum</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="albumName" class="form-label">Nombre del álbum</label>
+                                    <input type="text" class="form-control" id="albumName" placeholder="Ej: Midnight Memories">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="artistName" class="form-label">Nombre artístico</label>
+                                    <input type="text" class="form-control" id="artistName" placeholder="Tu nombre o nombre de la banda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="genre" class="form-label">Género musical</label>
+                                    <select class="form-select" id="genre">
+                                        <option selected>Selecciona un género</option>
+                                        <option>Pop</option>
+                                        <option>Rock</option>
+                                        <option>Indie</option>
+                                        <option>Electrónica</option>
+                                        <option>Hip Hop</option>
+                                        <option>R&B</option>
+                                        <option>Otro</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Precio (USD)</label>
+                                    <input type="number" class="form-control" id="price" placeholder="Ej: 9.99">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="coverArt" class="form-label">Portada del álbum</label>
+                                    <input class="form-control" type="file" id="coverArt">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="musicFiles" class="form-label">Archivos de audio</label>
+                                    <input class="form-control" type="file" id="musicFiles" multiple>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-gradient">Publicar álbum</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5 bg-dark parallax" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');" id="testimonios">
+        <div class="container py-5">
+            <h2 class="text-center section-title">Lo que dicen nuestros artistas</h2>
+            
+            <div class="row mt-5">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="testimonial-img me-3" alt="Claudia M.">
+                            <div>
+                                <h5 class="mb-0">Claudia M.</h5>
+                                <small class="text-muted">Cantautora independiente</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">"SoundVerse ha cambiado completamente mi carrera. Ahora puedo vender mi música directamente a mis fans y mantener el control creativo de todo el proceso."</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/75.jpg" class="testimonial-img me-3" alt="Javier R.">
+                            <div>
+                                <h5 class="mb-0">Javier R.</h5>
+                                <small class="text-muted">Productor musical</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">"La plataforma es increíblemente fácil de usar y las ganancias son mucho mejores que en otros sitios. Mis álbumes han llegado a audiencias que nunca imaginé."</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="testimonial-img me-3" alt="Sofía L.">
+                            <div>
+                                <h5 class="mb-0">Sofía L.</h5>
+                                <small class="text-muted">Banda indie</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">"Como banda pequeña, encontrar plataformas que realmente nos apoyen es difícil. SoundVerse nos ha permitido crecer y conectar con nuestros seguidores de verdad."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-5" id="contacto">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="newsletter-form text-center">
+                        <h2 class="mb-4">Mantente actualizado</h2>
+                        <p class="mb-4">Suscríbete a nuestro newsletter para recibir noticias sobre nuevos lanzamientos, artistas destacados y promociones exclusivas.</p>
+                        
+                        <form class="row g-3 justify-content-center">
+                            <div class="col-md-8">
+                                <input type="email" class="form-control" placeholder="Tu correo electrónico">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-gradient w-100">Suscribirse</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3 class="brand-title mb-3">SoundVerse</h3>
+                    <p>El marketplace donde los amantes de la música descubren joyas únicas y los artistas comparten su creatividad con el mundo.</p>
+                    <div class="mt-4">
+                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-spotify"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Explorar</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Inicio</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Álbumes</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Artistas</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Géneros</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Novedades</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Artistas</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Subir música</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Dashboard</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Recursos</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Preguntas frecuentes</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Soporte</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Términos</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Privacidad</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Cookies</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Derechos</a></li>
+                        <li class="mb-2"><a href="#" class="text-decoration-none text-light">Licencias</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="mb-3">Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> hola@soundverse.com</li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> +1 (555) 123-4567</li>
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Los Ángeles, CA</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4 bg-secondary">
+            
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 SoundVerse. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">Hecho con <i class="bi bi-heart-fill text-danger"></i> para amantes de la música</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Button -->
+    <a href="#" class="floating-btn pulse">
+        <i class="bi bi-headphones"></i>
+    </a>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Change navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+        
+        // Formulario de compra
+        document.getElementById('purchaseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('¡Compra realizada con éxito! Se ha enviado un correo con los detalles de tu compra.');
+            var purchaseModal = bootstrap.Modal.getInstance(document.getElementById('purchaseModal'));
+            purchaseModal.hide();
+        });
+        
+        // Simular datos diferentes para cada álbum
+        document.querySelectorAll('[data-bs-target="#detailsModal"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const albumId = this.getAttribute('href').split('-')[1];
+                const modalTitle = document.querySelector('#detailsModal .modal-title');
+                const modalImage = document.querySelector('#detailsModal img');
+                const modalAlbumTitle = document.querySelector('#detailsModal h3');
+                const modalArtist = document.querySelector('#detailsModal h5');
+                const modalPrice = document.querySelector('#detailsModal .price-tag');
+                const modalDescription = document.querySelector('#detailsModal p');
+                
+                // Datos del álbum seleccionado
+                let albumData = {
+                    title: '',
+                    artist: '',
+                    price: '',
+                    description: '',
+                    image: '',
+                    tracks: []
+                };
+                
+                switch(albumId) {
+                    case 'french':
+                        albumData = {
+                            title: 'French Exit',
+                            artist: 'TV Girl',
+                            price: '$19.99',
+                            description: 'French Exit es el álbum debut de TV Girl, lanzado en 2014. Este trabajo presenta una mezcla única de samples vintage con letras modernas y melodías pegajosas.',
+                            image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+                            tracks: [
+                                'Come When You Call',
+                                'Birds Don\'t Sing',
+                                'Lovers Rock',
+                                'The Blonde',
+                                'Cigarettes Out the Window',
+                                'Pantyhose',
+                                '(Do the) Act Like You Never Met Me',
+                                'Her and Her Friend',
+                                'Talk to Strangers',
+                                'Louise'
+                            ]
+                        };
+                        break;
+                    case 'who':
+                        albumData = {
+                            title: 'Who Really Cares',
+                            artist: 'TV Girl',
+                            price: '$24.99',
+                            description: 'Who Really Cares es el segundo álbum de estudio de TV Girl, lanzado en 2016. Continúa con su estilo característico pero con un sonido más pulido y experimental.',
+                            image: 'https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1413&q=80',
+                            tracks: [
+                                'Taking What\'s Not Yours',
+                                'Song About Me',
+                                'Not Allowed',
+                                'Loving Machine',
+                                'Do the Act Like You Never Met Me',
+                                'The Getaway',
+                                'Cynical One',
+                                'Hate Yourself',
+                                'For You',
+                                'Heaven Is a Bedroom'
+                            ]
+                        };
+                        break;
+                    case 'death':
+                        albumData = {
+                            title: 'Death of a Party Girl',
+                            artist: 'TV Girl',
+                            price: '$17.99',
+                            description: 'Death of a Party Girl es el tercer álbum de estudio de TV Girl, lanzado en 2018. Explora temas más oscuros con un sonido más atmosférico.',
+                            image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+                            tracks: [
+                                'Blue Hair',
+                                'It Almost Worked',
+                                'Pretty Boy',
+                                'Easier to Cry',
+                                'My Girlfriend',
+                                'King of Echo Park',
+                                'Maddie in Heaven',
+                                '7 Days Till Sunday',
+                                'Anjela',
+                                'Valerie'
+                            ]
+                        };
+                        break;
+                    case 'night':
+                        albumData = {
+                            title: 'The Night In Question',
+                            artist: 'TV Girl',
+                            price: '$21.99',
+                            description: 'The Night In Question es el cuarto álbum de estudio de TV Girl, lanzado en 2020. Muestra una evolución en su sonido manteniendo su esencia característica.',
+                            image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+                            tracks: [
+                                'The Night In Question',
+                                'Natalie Wood',
+                                'Sleeping with the Enemy',
+                                'Loud and Clear',
+                                'Mirror Mirror',
+                                'The Desperate Tango',
+                                'Melanie',
+                                'Something About You',
+                                'The Wrong Way',
+                                'The Getaway (Reprise)'
+                            ]
+                        };
+                        break;
+                }
+                
+                // Actualizar el modal con los datos del álbum
+                modalTitle.textContent = 'Detalles de ' + albumData.title;
+                modalImage.src = albumData.image;
+                modalImage.alt = albumData.title;
+                modalAlbumTitle.textContent = albumData.title;
+                modalArtist.textContent = albumData.artist;
+                modalPrice.textContent = albumData.price;
+                modalDescription.textContent = albumData.description;
+                
+                // Actualizar la lista de canciones
+                const trackList = document.querySelector('#detailsModal ol');
+                trackList.innerHTML = '';
+                albumData.tracks.forEach(track => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item bg-transparent text-light border-secondary';
+                    li.textContent = track;
+                    trackList.appendChild(li);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
