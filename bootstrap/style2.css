@@ -1,0 +1,20 @@
+body{
+    background-image: url(img/fondo.jpg);
+
+}
+h1{
+    color: greenyellow;
+}
+form{
+    background: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+    padding:  30px 50px;
+    margin-top: 30px;
+    border-radius: 20px;
+}
+form label{
+    color: aquamarine;
+    font-weight: bold;
+}
