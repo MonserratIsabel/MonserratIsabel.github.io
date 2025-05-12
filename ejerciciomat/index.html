@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios de JavaScript</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #437291;
+      --secondary-color: #41728f;
+      --dark-color: #7b1a99;
+      --light-color: #f8f9fc;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light-color);
+    }
+    
+    .navbar {
+      background-color: var(--dark-color) !important;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 3rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .ejercicio {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .ejercicio:hover {
+      transform: translateY(-5px);
+    }
+    
+    .ejercicio h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .resultado {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+    }
+    
+    .nav-link.active {
+      color: var(--primary-color) !important;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-code me-2"></i>Ejercicios JS
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#ej6">Ejercicio 6</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej7">Ejercicio 7</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej8">Ejercicio 8</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej9">Ejercicio 9</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej10">Ejercicio 10</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sección Hero -->
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Ejercicios de JavaScript</h1>
+      <p class="lead">Resolución de problemas matemáticos con JavaScript</p>
+    </div>
+  </section>
+
+  <!-- Contenido principal -->
+  <main class="container mb-5">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <!-- Ejercicio 6 -->
+        <div class="ejercicio" id="ej6">
+          <h2><i class="fas fa-calculator me-2"></i>Ejercicio 6</h2>
+          <p>Calcular las siguientes expresiones para z = 4.5:</p>
+          <div class="resultado" id="res6"></div>
+        </div>
+
+        <!-- Ejercicio 7 -->
+        <div class="ejercicio" id="ej7">
+          <h2><i class="fas fa-square-root-alt me-2"></i>Ejercicio 7</h2>
+          <p>Calcular las siguientes expresiones para t = 3.2:</p>
+          <div class="resultado" id="res7"></div>
+        </div>
+
+        <!-- Ejercicio 8 -->
+        <div class="ejercicio" id="ej8">
+          <h2><i class="fas fa-infinity me-2"></i>Ejercicio 8</h2>
+          <p>Calcular las siguientes expresiones para x = 6.5, y = 3.8:</p>
+          <div class="resultado" id="res8"></div>
+        </div>
+
+        <!-- Ejercicio 9 -->
+        <div class="ejercicio" id="ej9">
+          <h2><i class="fas fa-function me-2"></i>Ejercicio 9</h2>
+          <p>Calcular las siguientes expresiones para c = 4.6, d = 1.7:</p>
+          <div class="resultado" id="res9"></div>
+        </div>
+
+        <!-- Ejercicio 10 -->
+        <div class="ejercicio" id="ej10">
+          <h2><i class="fas fa-equals me-2"></i>Ejercicio 10</h2>
+          <p>Verificar las siguientes identidades trigonométricas para x = π/10:</p>
+          <div class="resultado" id="res10"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Ejercicio 6
+    const z = 4.5;
+    const ej6a = 0.4*Math.pow(z,4) + 3.1*Math.pow(z,2) - 162.3*z - 80.7;
+    const ej6b = (Math.pow(z, 2) - 23) / (Math.sqrt(3*z*z + 17.5));
+    document.getElementById("res6").innerHTML = 
+      `<strong>(a)</strong> 0.4z⁴ + 3.1z² - 162.3z - 80.7 = <span class="text-primary fw-bold">${ej6a.toFixed(2)}</span><br>
+       <strong>(b)</strong> (z² - 23) / √(3z² + 17.5) = <span class="text-primary fw-bold">${ej6b.toFixed(2)}</span>`;
+
+    // Ejercicio 7
+    const t = 3.2;
+    const ej7a = 0.5*Math.pow(2, t) - 3.8*Math.pow(t,3);
+    const ej7b = (6*t*t + 6*t - 2) / (t*t - 1);
+    document.getElementById("res7").innerHTML = 
+      `<strong>(a)</strong> 0.5(2ᵗ) - 3.8t³ = <span class="text-primary fw-bold">${ej7a.toFixed(2)}</span><br>
+       <strong>(b)</strong> (6t² + 6t - 2) / (t² - 1) = <span class="text-primary fw-bold">${ej7b.toFixed(2)}</span>`;
+
+    // Ejercicio 8
+    const x = 6.5, y = 3.8;
+    const ej8a = Math.pow((x*x + y*y), 2/3) + (x*y)/(y - x);
+    const ej8b = Math.sqrt(x + y)/(Math.pow(x - y,2)) + 2*x*x - Math.pow(x*y, 2);
+    document.getElementById("res8").innerHTML = 
+      `<strong>(a)</strong> (x² + y²)^(2/3) + (xy)/(y - x) = <span class="text-primary fw-bold">${ej8a.toFixed(2)}</span><br>
+       <strong>(b)</strong> √(x + y)/(x - y)² + 2x² - (xy)² = <span class="text-primary fw-bold">${ej8b.toFixed(2)}</span>`;
+
+    // Ejercicio 9
+    const c = 4.6, d = 1.7;
+    const a = c*d, b = (c + a)/(c - d);
+    const ej9a = Math.pow(Math.E, d - b) + Math.sqrt(c + a - Math.pow(c*a, d));
+    const ej9b = d/c + Math.pow(c*t/b, 2) - Math.pow(c, d) - a/b;
+    document.getElementById("res9").innerHTML = 
+      `<strong>(a)</strong> e^(d - b) + √(c + a - (ca)^d) = <span class="text-primary fw-bold">${ej9a.toFixed(2)}</span><br>
+       <strong>(b)</strong> d/c + (ct/b)² - cᵈ - a/b = <span class="text-primary fw-bold">${ej9b.toFixed(2)}</span>`;
+
+    // Ejercicio 10
+    const x10 = Math.PI/10;
+    const izqA = Math.pow(Math.cos(x10), 2) - Math.pow(Math.sin(x10), 2);
+    const derA = 1 - 2*Math.pow(Math.sin(x10), 2);
+    const izqB = Math.tan(x10)/(Math.sin(x10) - 2*Math.tan(x10));
+    const derB = 1/(Math.cos(x10) - 2);
+    document.getElementById("res10").innerHTML = 
+      `<strong>(a) Verificación de identidad:</strong><br>
+       cos²(x) - sin²(x) = <span class="text-primary fw-bold">${izqA.toFixed(4)}</span><br>
+       1 - 2sin²(x) = <span class="text-primary fw-bold">${derA.toFixed(4)}</span><br><br>
+       <strong>(b) Verificación de identidad:</strong><br>
+       tan(x)/(sin(x) - 2tan(x)) = <span class="text-primary fw-bold">${izqB.toFixed(4)}</span><br>
+       1/(cos(x) - 2) = <span class="text-primary fw-bold">${derB.toFixed(4)}</span>`;
+  </script>
+</body>
+</html>
+
+
