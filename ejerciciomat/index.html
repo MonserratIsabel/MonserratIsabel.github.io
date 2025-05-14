@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios de JavaScript</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #437291;
+      --secondary-color: #41728f;
+      --dark-color: #7b1a99;
+      --light-color: #f8f9fc;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light-color);
+    }
+    
+    .navbar {
+      background-color: var(--dark-color) !important;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 3rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .ejercicio {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .ejercicio:hover {
+      transform: translateY(-5px);
+    }
+    
+    .ejercicio h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .resultado {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+    }
+    
+    .nav-link.active {
+      color: var(--primary-color) !important;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-code me-2"></i>Ejercicios JS
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#ej6">Ejercicio 6</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej7">Ejercicio 7</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej8">Ejercicio 8</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej9">Ejercicio 9</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#ej10">Ejercicio 10</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sección Hero -->
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Ejercicios de JavaScript</h1>
+      <p class="lead">Resolución de problemas matemáticos con JavaScript</p>
+    </div>
+  </section>
+  
+
+  <!-- Contenido principal -->
+  <!-- Ejercicio 6 -->
+<div class="ejercicio" id="ej6">
+  <h2><i class="fas fa-calculator me-2"></i>Ejercicio 6</h2>
+  <p>Calcular las siguientes expresiones para un valor de z:</p>
+  <input type="number" step="any" id="inputZ" class="form-control mb-2" placeholder="Ingresa z">
+  <button class="btn btn-primary mb-3" onclick="calcularEj6()">Calcular</button>
+  <div class="resultado" id="res6"></div>
+</div>
+
+<!-- Ejercicio 7 -->
+<div class="ejercicio" id="ej7">
+  <h2><i class="fas fa-square-root-alt me-2"></i>Ejercicio 7</h2>
+  <p>Calcular las siguientes expresiones para un valor de t:</p>
+  <input type="number" step="any" id="inputT" class="form-control mb-2" placeholder="Ingresa t">
+  <button class="btn btn-primary mb-3" onclick="calcularEj7()">Calcular</button>
+  <div class="resultado" id="res7"></div>
+</div>
+
+<!-- Ejercicio 8 -->
+<div class="ejercicio" id="ej8">
+  <h2><i class="fas fa-infinity me-2"></i>Ejercicio 8</h2>
+  <p>Calcular las siguientes expresiones para valores de x y y:</p>
+  <input type="number" step="any" id="inputX8" class="form-control mb-2" placeholder="Ingresa x">
+  <input type="number" step="any" id="inputY8" class="form-control mb-2" placeholder="Ingresa y">
+  <button class="btn btn-primary mb-3" onclick="calcularEj8()">Calcular</button>
+  <div class="resultado" id="res8"></div>
+</div>
+
+<!-- Ejercicio 9 -->
+<div class="ejercicio" id="ej9">
+  <h2><i class="fas fa-function me-2"></i>Ejercicio 9</h2>
+  <p>Calcular las siguientes expresiones para valores de c, d y t:</p>
+  <input type="number" step="any" id="inputC" class="form-control mb-2" placeholder="Ingresa c">
+  <input type="number" step="any" id="inputD" class="form-control mb-2" placeholder="Ingresa d">
+  <input type="number" step="any" id="inputT9" class="form-control mb-2" placeholder="Ingresa t">
+  <button class="btn btn-primary mb-3" onclick="calcularEj9()">Calcular</button>
+  <div class="resultado" id="res9"></div>
+</div>
+
+<!-- Ejercicio 10 -->
+<div class="ejercicio" id="ej10">
+  <h2><i class="fas fa-equals me-2"></i>Ejercicio 10</h2>
+  <p>Verificar identidades trigonométricas para un valor de x (en radianes):</p>
+  <input type="number" step="any" id="inputX10" class="form-control mb-2" placeholder="Ingresa x en radianes (ej: 3.14)">
+  <button class="btn btn-primary mb-3" onclick="calcularEj10()">Calcular</button>
+  <div class="resultado" id="res10"></div>
+</div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  function calcularEj6() {
+    const z = parseFloat(document.getElementById("inputZ").value);
+    if (isNaN(z)) return mostrarError("res6");
+
+    const a = 0.4 * Math.pow(z, 4) + 3.1 * Math.pow(z, 2) - 162.3 * z - 80.7;
+    const b = (Math.pow(z, 2) - 23) / Math.sqrt(3 * z * z + 17.5);
+
+    document.getElementById("res6").innerHTML = 
+      `<strong>(a)</strong> ${a.toFixed(2)}<br><strong>(b)</strong> ${b.toFixed(2)}`;
+  }
+
+  function calcularEj7() {
+    const t = parseFloat(document.getElementById("inputT").value);
+    if (isNaN(t)) return mostrarError("res7");
+
+    const a = 0.5 * Math.pow(2, t) - 3.8 * Math.pow(t, 3);
+    const b = (6 * t * t + 6 * t - 2) / (t * t - 1);
+
+    document.getElementById("res7").innerHTML = 
+      `<strong>(a)</strong> ${a.toFixed(2)}<br><strong>(b)</strong> ${b.toFixed(2)}`;
+  }
+
+  function calcularEj8() {
+    const x = parseFloat(document.getElementById("inputX8").value);
+    const y = parseFloat(document.getElementById("inputY8").value);
+    if (isNaN(x) || isNaN(y)) return mostrarError("res8");
+
+    const a = Math.pow((x * x + y * y), 2/3) + (x * y) / (y - x);
+    const b = Math.sqrt(x + y) / Math.pow((x - y), 2) + 2 * x * x - Math.pow(x * y, 2);
+
+    document.getElementById("res8").innerHTML = 
+      `<strong>(a)</strong> ${a.toFixed(2)}<br><strong>(b)</strong> ${b.toFixed(2)}`;
+  }
+
+  function calcularEj9() {
+    const c = parseFloat(document.getElementById("inputC").value);
+    const d = parseFloat(document.getElementById("inputD").value);
+    const t = parseFloat(document.getElementById("inputT9").value);
+    if (isNaN(c) || isNaN(d) || isNaN(t)) return mostrarError("res9");
+
+    const a = c * d;
+    const b = (c + a) / (c - d);
+    const r1 = Math.pow(Math.E, d - b) + Math.sqrt(c + a - Math.pow(c * a, d));
+    const r2 = d / c + Math.pow((c * t / b), 2) - Math.pow(c, d) - a / b;
+
+    document.getElementById("res9").innerHTML = 
+      `<strong>(a)</strong> ${r1.toFixed(2)}<br><strong>(b)</strong> ${r2.toFixed(2)}`;
+  }
+
+  function calcularEj10() {
+    const x = parseFloat(document.getElementById("inputX10").value);
+    if (isNaN(x)) return mostrarError("res10");
+
+    const izqA = Math.pow(Math.cos(x), 2) - Math.pow(Math.sin(x), 2);
+    const derA = 1 - 2 * Math.pow(Math.sin(x), 2);
+    const izqB = Math.tan(x) / (Math.sin(x) - 2 * Math.tan(x));
+    const derB = 1 / (Math.cos(x) - 2);
+
+    document.getElementById("res10").innerHTML = 
+      `<strong>(a)</strong><br>
+       cos²(x) - sin²(x) = ${izqA.toFixed(4)}<br>
+       1 - 2sin²(x) = ${derA.toFixed(4)}<br><br>
+       <strong>(b)</strong><br>
+       tan(x)/(sin(x) - 2tan(x)) = ${izqB.toFixed(4)}<br>
+       1/(cos(x) - 2) = ${derB.toFixed(4)}`;
+  }
+
+  function mostrarError(id) {
+    document.getElementById(id).innerHTML = 
+      `<span class="text-danger">Por favor ingresa todos los valores correctamente.</span>`;
+  }
+</script>
+
+</body>
+</html>
+
+
