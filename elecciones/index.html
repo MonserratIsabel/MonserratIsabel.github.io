@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elecciones Primarias Bolivia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bolivia-red: #D52B1E;
+      --bolivia-yellow: #F9E300;
+      --bolivia-green: #007934;
+      --dark-bg: #121212;
+      --light-text: #f8f9fa;
+      --card-bg: rgba(30, 30, 30, 0.8);
+    }
+    
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                  url('https://images.unsplash.com/photo-1601524909160-6defdd0d5950?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-attachment: fixed;
+      color: var(--light-text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .bolivia-header {
+      background: linear-gradient(90deg, 
+                  var(--bolivia-red) 0%, 
+                  var(--bolivia-red) 33%, 
+                  var(--bolivia-yellow) 33%, 
+                  var(--bolivia-yellow) 66%, 
+                  var(--bolivia-green) 66%, 
+                  var(--bolivia-green) 100%);
+      color: #000;
+      padding: 15px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .bolivia-header h1 {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 2.5rem;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .bolivia-header p {
+      font-size: 1.2rem;
+      margin: 10px 0 0;
+      font-weight: 500;
+    }
+    
+    .container-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .section-title {
+      background: linear-gradient(90deg, var(--bolivia-red), var(--bolivia-yellow));
+      color: #000;
+      padding: 12px 20px;
+      border-radius: 10px 10px 0 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    
+    .section-card {
+      background-color: var(--card-bg);
+      border-radius: 0 0 10px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin-bottom: 30px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    .card-body {
+      padding: 25px;
+    }
+    
+    .form-control, .form-select {
+      background-color: rgba(40, 40, 40, 0.8);
+      color: var(--light-text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      background-color: rgba(50, 50, 50, 0.9);
+      border-color: var(--bolivia-yellow);
+      box-shadow: 0 0 0 0.25rem rgba(249, 227, 0, 0.25);
+      color: var(--light-text);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--bolivia-red), var(--bolivia-green));
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-link {
+      color: var(--bolivia-yellow);
+      text-decoration: none;
+    }
+    
+    .btn-link:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    
+    .candidate-card {
+      background: rgba(40, 40, 40, 0.6);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .candidate-card:hover {
+      transform: translateY(-5px);
+      background: rgba(50, 50, 50, 0.8);
+      border-color: var(--bolivia-yellow);
+    }
+    
+    .candidate-card.selected {
+      background: rgba(0, 121, 52, 0.2);
+      border-color: var(--bolivia-green);
+    }
+    
+    .candidate-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--bolivia-yellow);
+      margin-right: 15px;
+    }
+    
+    .candidate-info {
+      flex: 1;
+    }
+    
+    .candidate-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--bolivia-yellow);
+    }
+    
+    .candidate-party {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .stat-card {
+      background: rgba(40, 40, 40, 0.6);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--bolivia-yellow);
+      margin: 10px 0;
+    }
+    
+    .stat-label {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .progress {
+      height: 25px;
+      background-color: rgba(70, 70, 70, 0.5);
+      border-radius: 50px;
+      margin: 15px 0;
+      overflow: visible;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, var(--bolivia-red), var(--bolivia-yellow), var(--bolivia-green));
+      border-radius: 50px;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+    
+    .progress-bar::after {
+      content: attr(aria-valuenow) "%";
+      position: absolute;
+      right: 10px;
+      color: #000;
+      font-weight: bold;
+    }
+    
+    .bolivia-landmarks {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .landmark {
+      width: 180px;
+      text-align: center;
+      margin: 10px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    
+    .landmark:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    
+    .landmark-img {
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid var(--bolivia-yellow);
+    }
+    
+    .landmark-name {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .login-status {
+      background: rgba(40, 40, 40, 0.8);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 1px solid var(--bolivia-green);
+    }
+    
+    .login-status i {
+      color: var(--bolivia-yellow);
+      margin-right: 10px;
+    }
+    
+    .bolivia-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(213, 43, 30, 0.1) 0px, transparent 50px),
+        radial-gradient(circle at 90% 80%, rgba(249, 227, 0, 0.1) 0px, transparent 50px),
+        radial-gradient(circle at 50% 50%, rgba(0, 121, 52, 0.1) 0px, transparent 100px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    @media (max-width: 768px) {
+      .bolivia-header h1 {
+        font-size: 2rem;
+      }
+      
+      .candidate-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .candidate-img {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Patrón decorativo de fondo -->
+  <div class="bolivia-pattern"></div>
+  
+  <!-- Encabezado con colores de Bolivia -->
+  <header class="bolivia-header">
+    <div class="container">
+      <h1><i class="fas fa-vote-yea"></i> Elecciones Primarias</h1>
+      <p>Sistema de votación digital - Estado Plurinacional de Bolivia</p>
+    </div>
+  </header>
+  
+  <div class="container container-main">
+    <!-- Sección de estado de login -->
+    <div id="loginStatus" class="login-status">
+      <i class="fas fa-user"></i> <span id="statusText">No ha iniciado sesión</span>
+    </div>
+    
+    <div class="row">
+      <!-- Sección de Registro -->
+      <div class="col-lg-6">
+        <div class="section-card">
+          <div class="section-title">
+            <i class="fas fa-user-plus"></i> Crear Cuenta
+          </div>
+          <div class="card-body">
+            <form id="formRegistro">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" id="ci" class="form-control" placeholder="Carnet de Identidad" required>
+                </div>
+                <div class="col-md-6">
+                  <input type="date" id="nacimiento" class="form-control" required>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" id="nombre" class="form-control" placeholder="Nombre" required>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" id="apellido" class="form-control" placeholder="Apellido" required>
+                </div>
+              </div>
+              
+              <input type="email" id="correo" class="form-control" placeholder="Correo Electrónico" required>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="tel" id="telefono" class="form-control" placeholder="Teléfono" required>
+                </div>
+                <div class="col-md-6">
+                  <select id="departamento" class="form-select" required>
+                    <option value="">Departamento</option>
+                    <option>La Paz</option>
+                    <option>Cochabamba</option>
+                    <option>Santa Cruz</option>
+                    <option>Oruro</option>
+                    <option>Potosí</option>
+                    <option>Chuquisaca</option>
+                    <option>Tarija</option>
+                    <option>Beni</option>
+                    <option>Pando</option>
+                  </select>
+                </div>
+              </div>
+              
+              <input type="date" id="votacion" class="form-control" required>
+              
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-user-check"></i> Registrar Cuenta
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sección de Login -->
+      <div class="col-lg-6">
+        <div class="section-card">
+          <div class="section-title">
+            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+          </div>
+          <div class="card-body">
+            <form id="formLogin">
+              <input type="text" id="loginCI" class="form-control" placeholder="Carnet de Identidad" required>
+              
+              <input type="password" id="loginPassword" class="form-control" placeholder="Contraseña" required>
+              
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary mb-2">
+                  <i class="fas fa-door-open"></i> Iniciar Sesión
+                </button>
+              </div>
+              
+              <div class="text-center">
+                <button type="button" class="btn btn-link" onclick="alert('Se ha enviado un enlace de recuperación a su correo electrónico')">
+                  <i class="fas fa-key"></i> ¿Olvidaste tu contraseña?
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Sección de Votación (solo visible cuando se ha iniciado sesión) -->
+        <div id="votingSection" class="section-card" style="display: none;">
+          <div class="section-title">
+            <i class="fas fa-vote-yea"></i> Emitir Voto
+          </div>
+          <div class="card-body">
+            <form id="formVoto">
+              <p class="text-center mb-4">Seleccione un candidato:</p>
+              
+              <div class="candidate-card" onclick="selectCandidate(this, 'Candidato A')">
+                <div class="d-flex align-items-center">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                       alt="Candidato A" class="candidate-img">
+                  <div class="candidate-info">
+                    <div class="candidate-name">Luis Andrade</div>
+                    <div class="candidate-party">Partido Revolucionario</div>
+                  </div>
+                </div>
+                <input class="form-check-input d-none" type="radio" name="candidato" value="Candidato A" required>
+              </div>
+              
+              <div class="candidate-card" onclick="selectCandidate(this, 'Candidato B')">
+                <div class="d-flex align-items-center">
+                  <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                       alt="Candidato B" class="candidate-img">
+                  <div class="candidate-info">
+                    <div class="candidate-name">María Fernández</div>
+                    <div class="candidate-party">Movimiento Progresista</div>
+                  </div>
+                </div>
+                <input class="form-check-input d-none" type="radio" name="candidato" value="Candidato B">
+              </div>
+              
+              <div class="candidate-card" onclick="selectCandidate(this, 'Candidato C')">
+                <div class="d-flex align-items-center">
+                  <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" 
+                       alt="Candidato C" class="candidate-img">
+                  <div class="candidate-info">
+                    <div class="candidate-name">Carlos Mendoza</div>
+                    <div class="candidate-party">Alianza Democrática</div>
+                  </div>
+                </div>
+                <input class="form-check-input d-none" type="radio" name="candidato" value="Candidato C">
+              </div>
+              
+              <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-check-circle"></i> Confirmar Voto
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección de Estadísticas -->
+    <div class="section-card">
+      <div class="section-title">
+        <i class="fas fa-chart-bar"></i> Estadísticas de Votación
+      </div>
+      <div class="card-body">
+        <div id="estadisticas">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="stat-card">
+                <div class="stat-label">Total de Votantes</div>
+                <div class="stat-value" id="totalVoters">0</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stat-card">
+                <div class="stat-label">Votos Emitidos</div>
+                <div class="stat-value" id="totalVotes">0</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="stat-card">
+                <div class="stat-label">Participación</div>
+                <div class="stat-value" id="participation">0%</div>
+              </div>
+            </div>
+          </div>
+          
+          <h5 class="text-center mt-4 mb-3">Distribución de Votos</h5>
+          
+          <div class="candidate-stats">
+            <div class="d-flex align-items-center mb-3">
+              <div class="candidate-color" style="background: var(--bolivia-red); width: 20px; height: 20px; border-radius: 4px; margin-right: 10px;"></div>
+              <div style="flex: 1;">Luis Andrade (Partido Revolucionario)</div>
+              <div class="fw-bold" id="votesA">0 votos (0%)</div>
+            </div>
+            <div class="progress">
+              <div id="progressA" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            
+            <div class="d-flex align-items-center mb-3 mt-4">
+              <div class="candidate-color" style="background: var(--bolivia-yellow); width: 20px; height: 20px; border-radius: 4px; margin-right: 10px;"></div>
+              <div style="flex: 1;">María Fernández (Movimiento Progresista)</div>
+              <div class="fw-bold" id="votesB">0 votos (0%)</div>
+            </div>
+            <div class="progress">
+              <div id="progressB" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            
+            <div class="d-flex align-items-center mb-3 mt-4">
+              <div class="candidate-color" style="background: var(--bolivia-green); width: 20px; height: 20px; border-radius: 4px; margin-right: 10px;"></div>
+              <div style="flex: 1;">Carlos Mendoza (Alianza Democrática)</div>
+              <div class="fw-bold" id="votesC">0 votos (0%)</div>
+            </div>
+            <div class="progress">
+              <div id="progressC" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Lugares emblemáticos de Bolivia -->
+    <div class="bolivia-landmarks">
+      <div class="landmark">
+        <img src="https://images.unsplash.com/photo-1622297845770-5823f1d0b307?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" 
+             alt="Salar de Uyuni" class="landmark-img">
+        <div class="landmark-name">Salar de Uyuni</div>
+      </div>
+      <div class="landmark">
+        <img src="https://images.unsplash.com/photo-1598983061845-ca1d65b14e4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" 
+             alt="Tiwanaku" class="landmark-img">
+        <div class="landmark-name">Ruinas de Tiwanaku</div>
+      </div>
+      <div class="landmark">
+        <img src="https://images.unsplash.com/photo-1582636147829-41c0d5aec5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" 
+             alt="La Paz" class="landmark-img">
+        <div class="landmark-name">Ciudad de La Paz</div>
+      </div>
+      <div class="landmark">
+        <img src="https://images.unsplash.com/photo-1620754757640-0c6c35cfd0f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" 
+             alt="Lago Titicaca" class="landmark-img">
+        <div class="landmark-name">Lago Titicaca</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let votantes = [];
+    let votos = {"Candidato A": 0, "Candidato B": 0, "Candidato C": 0};
+    let usuarioLogueado = null;
+    
+    // Inicializar fechas por defecto
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date();
+      const votingDate = new Date();
+      votingDate.setDate(today.getDate() + 30);
+      
+      document.getElementById('nacimiento').valueAsDate = new Date(today.getFullYear() - 25, today.getMonth(), today.getDate());
+      document.getElementById('votacion').valueAsDate = votingDate;
+      mostrarEstadisticas();
+    });
+    
+    // Registrar nuevo usuario
+    document.getElementById("formRegistro").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      // Validar edad mínima (18 años)
+      const birthDate = new Date(document.getElementById("nacimiento").value);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      if (age < 18) {
+        alert("Debe tener al menos 18 años para registrarse");
+        return;
+      }
+      
+      const usuario = {
+        ci: document.getElementById("ci").value,
+        nombre: document.getElementById("nombre").value,
+        apellido: document.getElementById("apellido").value,
+        correo: document.getElementById("correo").value,
+        telefono: document.getElementById("telefono").value,
+        departamento: document.getElementById("departamento").value,
+        nacimiento: document.getElementById("nacimiento").value,
+        votacion: document.getElementById("votacion").value,
+        password: Math.random().toString(36).slice(-8), // Generar contraseña aleatoria
+        haVotado: false
+      };
+      
+      // Verificar si el CI ya está registrado
+      if (votantes.some(v => v.ci === usuario.ci)) {
+        alert("El carnet de identidad ya está registrado");
+        return;
+      }
+      
+      if (votantes.length < 100) {
+        votantes.push(usuario);
+        alert(`¡Cuenta creada con éxito!\nSu contraseña es: ${usuario.password}\nGuarde esta contraseña para iniciar sesión.`);
+        document.getElementById("formRegistro").reset();
+      } else {
+        alert("Límite de votantes alcanzado (100)");
+      }
+      
+      mostrarEstadisticas();
+    });
+    
+    // Iniciar sesión
+    document.getElementById("formLogin").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const ci = document.getElementById("loginCI").value;
+      const password = document.getElementById("loginPassword").value;
+      const usuario = votantes.find(v => v.ci === ci && v.password === password);
+      
+      if (usuario) {
+        usuarioLogueado = usuario;
+        document.getElementById("statusText").innerHTML = `Sesión iniciada como: <strong>${usuario.nombre} ${usuario.apellido}</strong>`;
+        document.getElementById("votingSection").style.display = "block";
+        alert(`¡Bienvenido ${usuario.nombre}!`);
+      } else {
+        alert("CI o contraseña incorrectos");
+      }
+    });
+    
+    // Seleccionar candidato
+    function selectCandidate(element, candidate) {
+      // Deseleccionar todos los candidatos
+      document.querySelectorAll('.candidate-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      // Seleccionar el candidato clickeado
+      element.classList.add('selected');
+      
+      // Marcar el radio button correspondiente
+      document.querySelector(`input[value="${candidate}"]`).checked = true;
+    }
+    
+    // Emitir voto
+    document.getElementById("formVoto").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      if (!usuarioLogueado) {
+        alert("Debe iniciar sesión para votar");
+        return;
+      }
+      
+      if (usuarioLogueado.haVotado) {
+        alert("Ya ha votado anteriormente");
+        return;
+      }
+      
+      const candidato = document.querySelector('input[name="candidato"]:checked').value;
+      votos[candidato]++;
+      usuarioLogueado.haVotado = true;
+      
+      // Deseleccionar candidato
+      document.querySelectorAll('.candidate-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      mostrarEstadisticas();
+      alert(`¡Voto registrado para ${candidato}!`);
+    });
+    
+    // Mostrar estadísticas
+    function mostrarEstadisticas() {
+      const totalVotantes = votantes.length;
+      const totalVotos = votos["Candidato A"] + votos["Candidato B"] + votos["Candidato C"];
+      const participacion = totalVotantes ? Math.round((totalVotos / totalVotantes) * 100) : 0;
+      
+      document.getElementById("totalVoters").textContent = totalVotantes;
+      document.getElementById("totalVotes").textContent = totalVotos;
+      document.getElementById("participation").textContent = `${participacion}%`;
+      
+      // Actualizar estadísticas por candidato
+      ['A', 'B', 'C'].forEach(candidate => {
+        const votes = votos[`Candidato ${candidate}`];
+        const percentage = totalVotos ? Math.round((votes / totalVotos) * 100) : 0;
+        
+        document.getElementById(`votes${candidate}`).textContent = `${votes} votos (${percentage}%)`;
+        const progressBar = document.getElementById(`progress${candidate}`);
+        progressBar.style.width = `${percentage}%`;
+        progressBar.setAttribute('aria-valuenow', percentage);
+      });
+    }
+  </script>
+</body>
+</html>
