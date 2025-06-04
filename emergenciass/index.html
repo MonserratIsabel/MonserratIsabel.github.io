@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Emergencias Hospitalarias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2><i class="bi bi-heart-pulse me-2"></i>Emergencias Hospitalarias</h2>
+                <p class="mb-0">Sistema de registro de pacientes</p>
+            </div>
+            <div class="login-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="loginUsername" class="form-label">Usuario</label>
+                        <input type="text" class="form-control form-control-lg" id="loginUsername" placeholder="Ingrese su usuario" required>
+                    </div>
+                    <div class="mb-3 position-relative">
+                        <label for="loginPassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control form-control-lg" id="loginPassword" placeholder="Ingrese su contraseña" required>
+                        <span class="input-password-eye" id="toggleLoginPassword">
+                            <i class="bi bi-eye-slash" id="loginEyeIcon"></i>
+                        </span>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg login-btn">Iniciar Sesión</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" id="showRegister">Crear nueva cuenta</a>
+                    </div>
+                </form>
+                
+                <form id="registerForm" class="mt-4 d-none">
+                    <h3 class="text-center mb-4">Registrar Nueva Cuenta</h3>
+                    <div class="mb-3">
+                        <label for="registerUsername" class="form-label">Usuario</label>
+                        <input type="text" class="form-control form-control-lg" id="registerUsername" placeholder="Cree un nombre de usuario" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control form-control-lg" id="registerPassword" placeholder="Cree una contraseña segura" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerConfirmPassword" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" class="form-control form-control-lg" id="registerConfirmPassword" placeholder="Repita su contraseña" required>
+                        <div id="passwordError" class="form-text text-danger d-none">Las contraseñas no coinciden</div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg login-btn">Registrarse</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" id="showLogin">Volver a inicio de sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Aplicación Principal -->
+    <div id="appScreen" class="app-container">
+        <nav class="navbar navbar-expand-lg navbar-dark header">
+            <div class="container">
+                <a class="navbar-brand" href="#" data-view="homeView">
+                    <i class="bi bi-heart-pulse me-2"></i>Emergencias Hospitalarias
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-view="homeView"><i class="bi bi-house-door me-1"></i>Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-view="patientsView"><i class="bi bi-people me-1"></i>Pacientes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#Estadísticas" data-view="statsView"><i class="bi bi-bar-chart me-1"></i>Estadísticas</a>
+                          
+                        </li>
+                        
+                    </ul>
+                    <div class="d-flex align-items-center">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div class="text-white me-3" id="userDisplay">Usuario</div>
+                        <button class="btn btn-sm logout-btn" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Vista Principal (Home) -->
+        <div id="homeView" class="view-active">
+            <div class="container main-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0"><i class="bi bi-clipboard-plus me-2"></i>Registro de Pacientes</h2>
+                    <div class="text-muted">Hoy: <span id="currentDate"></span></div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="form-container">
+                            <form id="patientForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nombre" class="form-label required">Nombre Completo</label>
+                                        <input type="text" class="form-control" id="nombre" placeholder="Ej: Juan Pérez" required>
+                                        <div class="invalid-feedback">Por favor ingrese el nombre completo</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="edad" class="form-label required">Edad</label>
+                                        <input type="number" class="form-control" id="edad" min="1" max="120" placeholder="Ej: 35" required>
+                                        <div class="invalid-feedback">La edad debe ser entre 1 y 120 años</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label required">Género</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="genero" id="hombre" value="Hombre" required>
+                                                <label class="form-check-label" for="hombre">Hombre</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="genero" id="mujer" value="Mujer">
+                                                <label class="form-check-label" for="mujer">Mujer</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="documento" class="form-label required">Documento de Identidad</label>
+                                        <input type="text" class="form-control" id="documento" placeholder="CI o Pasaporte" required>
+                                        <div class="invalid-feedback">El documento debe tener al menos 5 caracteres</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="gravedad" class="form-label required">Nivel de Gravedad</label>
+                                        <select class="form-select" id="gravedad" required>
+                                            <option value="" selected disabled>Seleccione un nivel</option>
+                                            <option value="leve">Leve</option>
+                                            <option value="moderado">Moderado</option>
+                                            <option value="urgente">Urgente</option>
+                                            <option value="critico">Crítico</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="sintomas" class="form-label required">Síntomas</label>
+                                    <textarea class="form-control" id="sintomas" rows="3" placeholder="Describa los síntomas del paciente" required></textarea>
+                                    <div class="invalid-feedback">Por favor describa los síntomas</div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tratamiento" class="form-label">Tratamiento Inicial</label>
+                                        <textarea class="form-control" id="tratamiento" rows="2" placeholder="Tratamiento aplicado"></textarea>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="medicamentos" class="form-label">Medicamentos</label>
+                                        <textarea class="form-control" id="medicamentos" rows="2" placeholder="Medicamentos administrados"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="examenes" class="form-label">Exámenes Solicitados</label>
+                                    <select class="form-select" id="examenes" multiple>
+                                        <option value="hemograma">Hemograma completo</option>
+                                        <option value="radiografia">Radiografía</option>
+                                        <option value="ecografia">Ecografía</option>
+                                        <option value="tomografia">Tomografía</option>
+                                        <option value="electrocardiograma">Electrocardiograma</option>
+                                        <option value="analisis">Análisis de sangre</option>
+                                        <option value="orina">Análisis de orina</option>
+                                    </select>
+                                    <div class="form-text">Mantén presionada la tecla Ctrl para seleccionar múltiples opciones</div>
+                                </div>
+                                
+                                <div class="d-grid mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="bi bi-save me-2"></i>Registrar Paciente
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-12">
+                                <div class="counter-card counter-leve">
+                                    <h3><i class="bi bi-emoji-smile"></i> Leves</h3>
+                                    <h1 id="counterLeve">0</h1>
+                                    <p>Pacientes estables</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-12">
+                                <div class="counter-card counter-moderado">
+                                    <h3><i class="bi bi-emoji-neutral"></i> Moderados</h3>
+                                    <h1 id="counterModerado">0</h1>
+                                    <p>Requieren atención</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-12">
+                                <div class="counter-card counter-urgente">
+                                    <h3><i class="bi bi-emoji-frown"></i> Urgentes</h3>
+                                    <h1 id="counterUrgente">0</h1>
+                                    <p>Atención prioritaria</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-12">
+                                <div class="counter-card counter-critico">
+                                    <h3><i class="bi bi-emoji-dizzy"></i> Críticos</h3>
+                                    <h1 id="counterCritico">0</h1>
+                                    <p>Atención inmediata</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pacientes-container mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3><i class="bi bi-list-task me-2"></i>Pacientes Registrados Hoy</h3>
+                        <div class="text-muted">Total: <span id="totalPacientes">0</span> pacientes</div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Edad</th>
+                                    <th>Género</th>
+                                    <th>Documento</th>
+                                    <th>Gravedad</th>
+                                    <th>Síntomas</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pacientesTable">
+                                <!-- Los pacientes se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="emptyStateToday" class="empty-state d-none">
+                        <i class="bi bi-journal-x"></i>
+                        <h4>No hay pacientes registrados hoy</h4>
+                        <p>Comience registrando un nuevo paciente usando el formulario</p>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>Los pacientes están ordenados por nivel de gravedad (Crítico > Urgente > Moderado > Leve)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vista de Pacientes Registrados -->
+        <div id="patientsView" class="view-container">
+            <div class="container main-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0"><i class="bi bi-people me-2"></i>Registro Completo de Pacientes</h2>
+                    <div class="text-muted">Total registros: <span id="totalRegistros">0</span></div>
+                </div>
+                
+                <div class="pacientes-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                        <div>
+                            <button class="btn btn-outline-primary me-2" id="sortByDateBtn">
+                                <i class="bi bi-calendar-event me-1"></i>Ordenar por Fecha
+                            </button>
+                            <button class="btn btn-outline-primary" id="sortBySeverityBtn">
+                                <i class="bi bi-exclamation-triangle me-1"></i>Ordenar por Gravedad
+                            </button>
+                        </div>
+                        <div class="flex-grow-1" style="max-width: 300px;">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Buscar paciente...">
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Edad</th>
+                                    <th>Género</th>
+                                    <th>Documento</th>
+                                    <th>Gravedad</th>
+                                    <th>Síntomas</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allPacientesTable">
+                                <!-- Todos los pacientes se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="emptyStateAll" class="empty-state d-none">
+                        <i class="bi bi-people"></i>
+                        <h4>No hay pacientes registrados</h4>
+                        <p>Regrese a la página de inicio para registrar un nuevo paciente</p>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                        <div class="text-muted">Mostrando <span id="showingCount">0</span> de <span id="totalCount">0</span> registros</div>
+                        <div>
+                            <button class="btn btn-outline-secondary btn-sm" id="prevPageBtn" disabled>
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <span class="mx-2" id="currentPage">1</span>
+                            <button class="btn btn-outline-secondary btn-sm" id="nextPageBtn">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vista de Estadísticas -->
+        <div id="statsView" id="Estadísticas" class="view-container">
+            <div class="container main-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    
+                    <h2 class="mb-0"><i class="bi bi-bar-chart me-2" id="Estadísticas"></i>Estadísticas de Emergencias</h2>
+                    <div class="text-muted">Última actualización: <span id="lastUpdate"></span></div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="pacientes-container mb-4">
+                            <h4 class="mb-4"><i class="bi bi-graph-up me-2"></i>Distribución por Gravedad</h4>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="counter-card counter-leve">
+                                        <h3>Leves</h3>
+                                        <h1 id="statsLeve">0</h1>
+                                        <p id="statsLevePercent">0% del total</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="counter-card counter-moderado">
+                                        <h3>Moderados</h3>
+                                        <h1 id="statsModerado">0</h1>
+                                        <p id="statsModeradoPercent">0% del total</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="counter-card counter-urgente">
+                                        <h3>Urgentes</h3>
+                                        <h1 id="statsUrgente">0</h1>
+                                        <p id="statsUrgentePercent">0% del total</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="counter-card counter-critico">
+                                        <h3>Críticos</h3>
+                                        <h1 id="statsCritico">0</h1>
+                                        <p id="statsCriticoPercent">0% del total</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container mt-4 p-4 border rounded bg-white">
+                                <div id="chartPlaceholder" class="text-center py-5">
+                                    <i class="bi bi-pie-chart" style="font-size: 3rem; opacity: 0.2;"></i>
+                                    <p class="mt-3">Gráfico de distribución de pacientes por gravedad</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="pacientes-container mb-4">
+                            <h4 class="mb-4"><i class="bi bi-activity me-2"></i>Actividad Reciente</h4>
+                            <div class="list-group" id="recentActivity">
+                                <!-- Actividad reciente se cargará aquí -->
+                            </div>
+                        </div>
+                        
+                        <div class="pacientes-container">
+                            <h4 class="mb-4"><i class="bi bi-calendar-event me-2"></i>Pacientes por Día</h4>
+                            <div class="chart-container p-4 border rounded bg-white">
+                                <div id="dailyChartPlaceholder" class="text-center py-5">
+                                    <i class="bi bi-graph-up" style="font-size: 3rem; opacity: 0.2;"></i>
+                                    <p class="mt-3">Gráfico de pacientes atendidos por día</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="container text-center">
+                <p class="mb-0">Sistema de Emergencias Hospitalarias &copy; 2023</p>
+                <p class="text-muted small">Todos los datos son confidenciales y protegidos</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Datos de ejemplo para pacientes
+        const pacientesEjemplo = [
+            {
+                id: 1,
+                nombre: "María Rodríguez",
+                edad: 45,
+                genero: "Mujer",
+                documento: "V-12345678",
+                gravedad: "critico",
+                sintomas: "Dolor torácico intenso, dificultad para respirar, sudoración fría",
+                tratamiento: "Oxígeno, monitorización cardiaca, acceso venoso",
+                medicamentos: "Aspirina 325mg, nitroglicerina 0.4mg sublingual",
+                examenes: ["electrocardiograma", "analisis"],
+                fecha: "2023-11-15 08:30:22",
+                userId: "admin"
+            },
+            {
+                id: 2,
+                nombre: "Carlos González",
+                edad: 32,
+                genero: "Hombre",
+                documento: "E-87654321",
+                gravedad: "moderado",
+                sintomas: "Fiebre alta (39.5°C), dolor de cabeza intenso, fotofobia",
+                tratamiento: "Hidratación intravenosa, reposo en habitación oscura",
+                medicamentos: "Paracetamol 1g cada 8 horas",
+                examenes: ["hemograma", "orina"],
+                fecha: "2023-11-15 09:15:47",
+                userId: "admin"
+            },
+            {
+                id: 3,
+                nombre: "Laura Martínez",
+                edad: 28,
+                genero: "Mujer",
+                documento: "V-11223344",
+                gravedad: "leve",
+                sintomas: "Dolor en brazo derecho después de caída casual",
+                tratamiento: "Inmovilización con cabestrillo, aplicación de hielo",
+                medicamentos: "Ibuprofeno 400mg cada 12 horas",
+                examenes: ["radiografia"],
+                fecha: "2023-11-15 10:05:12",
+                userId: "admin"
+            }
+        ];
+        
+        // Estado de la aplicación
+        let pacientes = JSON.parse(localStorage.getItem('pacientes')) || pacientesEjemplo;
+        let currentUser = null;
+        let currentView = 'homeView';
+        let currentSort = 'dateDesc';
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        
+        // Referencias a elementos DOM
+        const loginScreen = document.getElementById('loginScreen');
+        const appScreen = document.getElementById('appScreen');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userDisplay = document.getElementById('userDisplay');
+        const userAvatar = document.getElementById('userAvatar');
+        const patientForm = document.getElementById('patientForm');
+        const pacientesTable = document.getElementById('pacientesTable');
+        const allPacientesTable = document.getElementById('allPacientesTable');
+        const passwordError = document.getElementById('passwordError');
+        const sortByDateBtn = document.getElementById('sortByDateBtn');
+        const sortBySeverityBtn = document.getElementById('sortBySeverityBtn');
+        const searchInput = document.getElementById('searchInput');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const currentPageEl = document.getElementById('currentPage');
+        const showingCountEl = document.getElementById('showingCount');
+        const totalCountEl = document.getElementById('totalCount');
+        const emptyStateToday = document.getElementById('emptyStateToday');
+        const emptyStateAll = document.getElementById('emptyStateAll');
+        
+        // Contadores
+        const counterLeve = document.getElementById('counterLeve');
+        const counterModerado = document.getElementById('counterModerado');
+        const counterUrgente = document.getElementById('counterUrgente');
+        const counterCritico = document.getElementById('counterCritico');
+        const totalPacientesEl = document.getElementById('totalPacientes');
+        const totalRegistros = document.getElementById('totalRegistros');
+        
+        // Fecha actual
+        const now = new Date();
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('es-ES', {
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric'
+        });
+        
+        document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('es-ES');
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            initEventListeners();
+            renderPacientes();
+            updateCounters();
+        });
+        
+        // Verificar autenticación
+        function checkAuth() {
+            const user = localStorage.getItem('currentUser');
+            if (user) {
+                currentUser = JSON.parse(user);
+                loginScreen.style.display = 'none';
+                appScreen.style.display = 'flex';
+                userDisplay.textContent = currentUser.username;
+                userAvatar.textContent = currentUser.username.charAt(0).toUpperCase();
+            }
+        }
+        
+        // Inicializar event listeners
+        function initEventListeners() {
+            // Formularios de login/registro
+            loginForm.addEventListener('submit', handleLogin);
+            registerForm.addEventListener('submit', handleRegister);
+            showRegister.addEventListener('click', toggleForms);
+            showLogin.addEventListener('click', toggleForms);
+            
+            // Navegación
+            logoutBtn.addEventListener('click', handleLogout);
+            document.querySelectorAll('.nav-link[data-view]').forEach(link => {
+                link.addEventListener('click', switchView);
+            });
+            
+            // Formulario de pacientes
+            patientForm.addEventListener('submit', addPaciente);
+            
+            // Validación en tiempo real
+            document.getElementById('edad').addEventListener('input', validateEdad);
+            document.getElementById('documento').addEventListener('input', validateDocumento);
+            
+            // Vista de pacientes
+            sortByDateBtn.addEventListener('click', () => sortPatients('date'));
+            sortBySeverityBtn.addEventListener('click', () => sortPatients('severity'));
+            searchInput.addEventListener('input', filterPatients);
+            prevPageBtn.addEventListener('click', goToPrevPage);
+            nextPageBtn.addEventListener('click', goToNextPage);
+            
+            // Mostrar/ocultar contraseña en login
+            document.getElementById('toggleLoginPassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('loginPassword');
+                const eyeIcon = document.getElementById('loginEyeIcon');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('bi-eye-slash');
+                    eyeIcon.classList.add('bi-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('bi-eye');
+                    eyeIcon.classList.add('bi-eye-slash');
+                }
+            });
+        }
+        
+        // Manejar inicio de sesión
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                loginScreen.style.display = 'none';
+                appScreen.style.display = 'flex';
+                userDisplay.textContent = username;
+                userAvatar.textContent = username.charAt(0).toUpperCase();
+                renderPacientes();
+                updateCounters();
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+        
+        // Manejar registro
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                passwordError.classList.remove('d-none');
+                return;
+            }
+            
+            passwordError.classList.add('d-none');
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.some(u => u.username === username)) {
+                alert('El usuario ya existe');
+                return;
+            }
+            
+            const newUser = { username, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('Cuenta creada exitosamente. Por favor inicie sesión.');
+            toggleForms();
+            registerForm.reset();
+        }
+        
+        // Cerrar sesión
+        function handleLogout() {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            appScreen.style.display = 'none';
+            loginScreen.style.display = 'flex';
+            loginForm.reset();
+        }
+        
+        // Alternar entre formularios de login y registro
+        function toggleForms() {
+            loginForm.classList.toggle('d-none');
+            registerForm.classList.toggle('d-none');
+            loginForm.reset();
+            registerForm.reset();
+            passwordError.classList.add('d-none');
+        }
+        
+        // Cambiar vista
+        function switchView(e) {
+            e.preventDefault();
+            const targetView = this.getAttribute('data-view');
+            
+            // Actualizar navegación
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Ocultar todas las vistas
+            document.querySelectorAll('.view-container').forEach(view => {
+                view.classList.remove('view-active');
+            });
+            
+            // Mostrar vista seleccionada
+            document.getElementById(targetView).classList.add('view-active');
+            currentView = targetView;
+            
+            // Actualizar datos si es necesario
+            if (targetView === 'patientsView') {
+                renderAllPacientes();
+            } else if (targetView === 'statsView') {
+                updateStats();
+            } else if (targetView === 'homeView') {
+                renderPacientes();
+            }
+        }
+        
+        // Validación de edad
+        function validateEdad() {
+            const edadInput = document.getElementById('edad');
+            if (edadInput.value < 1 || edadInput.value > 120) {
+                edadInput.classList.add('is-invalid');
+            } else {
+                edadInput.classList.remove('is-invalid');
+            }
+        }
+        
+        // Validación de documento
+        function validateDocumento() {
+            const docInput = document.getElementById('documento');
+            if (docInput.value.length < 5) {
+                docInput.classList.add('is-invalid');
+            } else {
+                docInput.classList.remove('is-invalid');
+            }
+        }
+        
+        // Añadir nuevo paciente
+        function addPaciente(e) {
+            e.preventDefault();
+            
+            // Validar todos los campos
+            let valid = true;
+            patientForm.querySelectorAll('[required]').forEach(input => {
+                if (!input.value) {
+                    input.classList.add('is-invalid');
+                    valid = false;
+                }
+            });
+            
+            // Validaciones específicas
+            if (document.getElementById('edad').value < 1 || document.getElementById('edad').value > 120) {
+                valid = false;
+            }
+            
+            if (document.getElementById('documento').value.length < 5) {
+                valid = false;
+            }
+            
+            if (!valid) return;
+            
+            // Obtener valores del formulario
+            const nombre = document.getElementById('nombre').value;
+            const edad = parseInt(document.getElementById('edad').value);
+            const genero = document.querySelector('input[name="genero"]:checked').value;
+            const documento = document.getElementById('documento').value;
+            const gravedad = document.getElementById('gravedad').value;
+            const sintomas = document.getElementById('sintomas').value;
+            const tratamiento = document.getElementById('tratamiento').value;
+            const medicamentos = document.getElementById('medicamentos').value;
+            
+            // Obtener exámenes seleccionados
+            const examenes = Array.from(document.getElementById('examenes').selectedOptions)
+                .map(option => option.value);
+            
+            // Crear nuevo paciente
+            const newPaciente = {
+                id: Date.now(),
+                nombre,
+                edad,
+                genero,
+                documento,
+                gravedad,
+                sintomas,
+                tratamiento,
+                medicamentos,
+                examenes,
+                fecha: new Date().toLocaleString('es-ES'),
+                userId: currentUser.username
+            };
+            
+            // Añadir a la lista
+            pacientes.push(newPaciente);
+            localStorage.setItem('pacientes', JSON.stringify(pacientes));
+            
+            // Mostrar alerta si es crítico
+            if (gravedad === 'critico') {
+                showCriticalAlert();
+            }
+            
+            // Actualizar UI
+            renderPacientes();
+            updateCounters();
+            
+            // Resetear formulario
+            patientForm.reset();
+            document.getElementById('gravedad').selectedIndex = 0;
+        }
+        
+        // Mostrar alerta de paciente crítico
+        function showCriticalAlert() {
+            // Crear alerta dinámica
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-critical';
+            alertDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-exclamation-triangle-fill me-3 fs-3"></i>
+                    <div>
+                        <h4 class="mb-1">¡Paciente Crítico Registrado!</h4>
+                        <p class="mb-0">Se requiere atención médica inmediata</p>
+                    </div>
+                    <button type="button" class="btn-close ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+        
+        // Eliminar paciente
+        function deletePaciente(id) {
+            if (confirm('¿Está seguro que desea eliminar este registro de paciente?')) {
+                pacientes = pacientes.filter(p => p.id !== id);
+                localStorage.setItem('pacientes', JSON.stringify(pacientes));
+                
+                if (currentView === 'homeView') {
+                    renderPacientes();
+                } else if (currentView === 'patientsView') {
+                    renderAllPacientes();
+                }
+                
+                updateCounters();
+            }
+        }
+        
+        // Renderizar pacientes en la vista principal
+        function renderPacientes() {
+            // Filtrar pacientes de hoy y del usuario actual
+            const hoy = new Date().toLocaleDateString('es-ES');
+            const pacientesHoy = pacientes.filter(p => {
+                const fechaPaciente = new Date(p.fecha).toLocaleDateString('es-ES');
+                return fechaPaciente === hoy && p.userId === currentUser.username;
+            });
+            
+            // Ordenar por gravedad (crítico > urgente > moderado > leve)
+            const ordenGravedad = { critico: 4, urgente: 3, moderado: 2, leve: 1 };
+            pacientesHoy.sort((a, b) => ordenGravedad[b.gravedad] - ordenGravedad[a.gravedad]);
+            
+            pacientesTable.innerHTML = '';
+            
+            if (pacientesHoy.length === 0) {
+                emptyStateToday.classList.remove('d-none');
+            } else {
+                emptyStateToday.classList.add('d-none');
+                pacientesHoy.forEach(paciente => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add(paciente.gravedad);
+                    
+                    // Determinar clase de gravedad
+                    let gravedadClass = '';
+                    let gravedadText = '';
+                    
+                    switch(paciente.gravedad) {
+                        case 'leve':
+                            gravedadClass = 'badge-leve';
+                            gravedadText = 'Leve';
+                            break;
+                        case 'moderado':
+                            gravedadClass = 'badge-moderado';
+                            gravedadText = 'Moderado';
+                            break;
+                        case 'urgente':
+                            gravedadClass = 'badge-urgente';
+                            gravedadText = 'Urgente';
+                            break;
+                        case 'critico':
+                            gravedadClass = 'badge-critico';
+                            gravedadText = 'Crítico';
+                            break;
+                    }
+                    
+                    tr.innerHTML = `
+                        <td>${paciente.nombre}</td>
+                        <td>${paciente.edad}</td>
+                        <td>${paciente.genero}</td>
+                        <td>${paciente.documento}</td>
+                        <td><span class="gravedad-badge ${gravedadClass}">${gravedadText}</span></td>
+                        <td>${paciente.sintomas.substring(0, 50)}${paciente.sintomas.length > 50 ? '...' : ''}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-danger btn-delete" onclick="deletePaciente(${paciente.id})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    pacientesTable.appendChild(tr);
+                });
+            }
+            
+            totalPacientesEl.textContent = pacientesHoy.length;
+        }
+        
+        // Renderizar todos los pacientes en la vista de pacientes
+        function renderAllPacientes() {
+            // Filtrar pacientes del usuario actual
+            const userPatients = pacientes.filter(p => p.userId === currentUser.username);
+            
+            if (userPatients.length === 0) {
+                allPacientesTable.innerHTML = '';
+                emptyStateAll.classList.remove('d-none');
+                totalRegistros.textContent = "0";
+                return;
+            } else {
+                emptyStateAll.classList.add('d-none');
+            }
+            
+            // Ordenar según la selección actual
+            sortPatients(currentSort);
+        }
+        
+        // Ordenar pacientes
+        function sortPatients(type) {
+            const userPatients = pacientes.filter(p => p.userId === currentUser.username);
+            
+            if (type === 'date') {
+                if (currentSort === 'dateDesc') {
+                    userPatients.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+                    currentSort = 'dateAsc';
+                    sortByDateBtn.innerHTML = '<i class="bi bi-calendar-event me-1"></i>Ordenar por Fecha (↑)';
+                } else {
+                    userPatients.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+                    currentSort = 'dateDesc';
+                    sortByDateBtn.innerHTML = '<i class="bi bi-calendar-event me-1"></i>Ordenar por Fecha (↓)';
+                }
+                sortBySeverityBtn.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i>Ordenar por Gravedad';
+            } else if (type === 'severity') {
+                const ordenGravedad = { critico: 4, urgente: 3, moderado: 2, leve: 1 };
+                if (currentSort === 'severityDesc') {
+                    userPatients.sort((a, b) => ordenGravedad[b.gravedad] - ordenGravedad[a.gravedad]);
+                    currentSort = 'severityAsc';
+                    sortBySeverityBtn.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i>Ordenar por Gravedad (↑)';
+                } else {
+                    userPatients.sort((a, b) => ordenGravedad[a.gravedad] - ordenGravedad[b.gravedad]);
+                    currentSort = 'severityDesc';
+                    sortBySeverityBtn.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i>Ordenar por Gravedad (↓)';
+                }
+                sortByDateBtn.innerHTML = '<i class="bi bi-calendar-event me-1"></i>Ordenar por Fecha';
+            }
+            
+            // Filtrar por búsqueda
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredPatients = searchTerm ? 
+                userPatients.filter(p => 
+                    p.nombre.toLowerCase().includes(searchTerm) || 
+                    p.documento.toLowerCase().includes(searchTerm) ||
+                    p.sintomas.toLowerCase().includes(searchTerm)
+                ) : 
+                userPatients;
+            
+            // Paginación
+            const totalItems = filteredPatients.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            
+            // Actualizar controles de paginación
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+            currentPageEl.textContent = currentPage;
+            showingCountEl.textContent = Math.min(itemsPerPage, totalItems - ((currentPage - 1) * itemsPerPage));
+            totalCountEl.textContent = totalItems;
+            totalRegistros.textContent = userPatients.length;
+            
+            // Obtener pacientes para la página actual
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedPatients = filteredPatients.slice(startIndex, startIndex + itemsPerPage);
+            
+            // Limpiar tabla
+            allPacientesTable.innerHTML = '';
+            
+            paginatedPatients.forEach(paciente => {
+                // Determinar clase de gravedad
+                let gravedadClass = '';
+                let gravedadText = '';
+                
+                switch(paciente.gravedad) {
+                    case 'leve':
+                        gravedadClass = 'badge-leve';
+                        gravedadText = 'Leve';
+                        break;
+                    case 'moderado':
+                        gravedadClass = 'badge-moderado';
+                        gravedadText = 'Moderado';
+                        break;
+                    case 'urgente':
+                        gravedadClass = 'badge-urgente';
+                        gravedadText = 'Urgente';
+                        break;
+                    case 'critico':
+                        gravedadClass = 'badge-critico';
+                        gravedadText = 'Crítico';
+                        break;
+                }
+                
+                // Fila para la tabla
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${paciente.nombre}</td>
+                    <td>${paciente.edad}</td>
+                    <td>${paciente.genero}</td>
+                    <td>${paciente.documento}</td>
+                    <td><span class="gravedad-badge ${gravedadClass}">${gravedadText}</span></td>
+                    <td>${paciente.sintomas.substring(0, 30)}${paciente.sintomas.length > 30 ? '...' : ''}</td>
+                    <td>${paciente.fecha.split(' ')[0]}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deletePaciente(${paciente.id})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                `;
+                allPacientesTable.appendChild(tr);
+            });
+        }
+        
+        // Filtrar pacientes
+        function filterPatients() {
+            currentPage = 1;
+            renderAllPacientes();
+        }
+        
+        // Ir a página anterior
+        function goToPrevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderAllPacientes();
+            }
+        }
+        
+        // Ir a página siguiente
+        function goToNextPage() {
+            const userPatients = pacientes.filter(p => p.userId === currentUser.username);
+            const totalPages = Math.ceil(userPatients.length / itemsPerPage);
+            
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderAllPacientes();
+            }
+        }
+        
+        // Actualizar contadores
+        function updateCounters() {
+            // Filtrar pacientes del usuario actual
+            const userPatients = pacientes.filter(p => p.userId === currentUser.username);
+            
+            const countLeve = userPatients.filter(p => p.gravedad === 'leve').length;
+            const countModerado = userPatients.filter(p => p.gravedad === 'moderado').length;
+            const countUrgente = userPatients.filter(p => p.gravedad === 'urgente').length;
+            const countCritico = userPatients.filter(p => p.gravedad === 'critico').length;
+            const total = userPatients.length;
+            
+            counterLeve.textContent = countLeve;
+            counterModerado.textContent = countModerado;
+            counterUrgente.textContent = countUrgente;
+            counterCritico.textContent = countCritico;
+            
+            // Actualizar pacientes de hoy
+            const hoy = new Date().toLocaleDateString('es-ES');
+            const pacientesHoy = userPatients.filter(p => {
+                const fechaPaciente = new Date(p.fecha).toLocaleDateString('es-ES');
+                return fechaPaciente === hoy;
+            });
+            totalPacientesEl.textContent = pacientesHoy.length;
+        }
+        
+        // Actualizar estadísticas
+        function updateStats() {
+            // Filtrar pacientes del usuario actual
+            const userPatients = pacientes.filter(p => p.userId === currentUser.username);
+            
+            const countLeve = userPatients.filter(p => p.gravedad === 'leve').length;
+            const countModerado = userPatients.filter(p => p.gravedad === 'moderado').length;
+            const countUrgente = userPatients.filter(p => p.gravedad === 'urgente').length;
+            const countCritico = userPatients.filter(p => p.gravedad === 'critico').length;
+            const total = userPatients.length;
+            
+            document.getElementById('statsLeve').textContent = countLeve;
+            document.getElementById('statsModerado').textContent = countModerado;
+            document.getElementById('statsUrgente').textContent = countUrgente;
+            document.getElementById('statsCritico').textContent = countCritico;
+            
+            // Actualizar porcentajes
+            document.getElementById('statsLevePercent').textContent = total ? `${Math.round((countLeve / total) * 100)}% del total` : '0% del total';
+            document.getElementById('statsModeradoPercent').textContent = total ? `${Math.round((countModerado / total) * 100)}% del total` : '0% del total';
+            document.getElementById('statsUrgentePercent').textContent = total ? `${Math.round((countUrgente / total) * 100)}% del total` : '0% del total';
+            document.getElementById('statsCriticoPercent').textContent = total ? `${Math.round((countCritico / total) * 100)}% del total` : '0% del total';
+            
+            // Actualizar actividad reciente
+            const recentActivity = document.getElementById('recentActivity');
+            recentActivity.innerHTML = '';
+            
+            // Obtener últimos 4 pacientes registrados
+            const recentPatients = [...userPatients]
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .slice(0, 4);
+            
+            recentPatients.forEach(p => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'list-group-item';
+                
+                let icon = '';
+                let severityClass = '';
+                switch(p.gravedad) {
+                    case 'leve': 
+                        icon = '<i class="bi bi-emoji-smile text-success me-2"></i>'; 
+                        severityClass = 'severity-leve';
+                        break;
+                    case 'moderado': 
+                        icon = '<i class="bi bi-emoji-neutral text-warning me-2"></i>'; 
+                        severityClass = 'severity-moderado';
+                        break;
+                    case 'urgente': 
+                        icon = '<i class="bi bi-emoji-frown text-orange me-2"></i>'; 
+                        severityClass = 'severity-urgente';
+                        break;
+                    case 'critico': 
+                        icon = '<i class="bi bi-emoji-dizzy text-danger me-2"></i>'; 
+                        severityClass = 'severity-critico';
+                        break;
+                }
+                
+                activityItem.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${icon}${p.nombre}</h6>
+                        <small>${p.fecha.split(' ')[0]}</small>
+                    </div>
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="severity-indicator ${severityClass}"></span>
+                        <span class="small">${p.gravedad.charAt(0).toUpperCase() + p.gravedad.slice(1)}</span>
+                    </div>
+                    <p class="mb-1 small">${p.sintomas.substring(0, 60)}${p.sintomas.length > 60 ? '...' : ''}</p>
+                `;
+                
+                recentActivity.appendChild(activityItem);
+            });
+        }
+        
+        // Hacer funciones globales
+        window.deletePaciente = deletePaciente;
+    </script>
+</body>
+</html>
