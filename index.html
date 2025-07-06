@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Feliz Cumpleaños César Imanol!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(to top right, #ffe6f0, #ccf2ff);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #d63384;
+      font-size: 3em;
+      text-shadow: 2px 2px #fff;
+      margin-bottom: 10px;
+      animation: brillar 1.5s infinite alternate;
+    }
+
+    p {
+      color: #333;
+      font-size: 1.2em;
+      margin: 5px 0;
+    }
+
+    .pastel {
+      font-size: 4em;
+      margin: 20px;
+      animation: saltar 1s infinite alternate;
+    }
+
+    @keyframes brillar {
+      from { text-shadow: 0 0 10px #ffc0cb; }
+      to { text-shadow: 0 0 20px #ff69b4; }
+    }
+
+    @keyframes saltar {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+
+    /* Globos */
+    .globo {
+      position: absolute;
+      bottom: -100px;
+      width: 50px;
+      height: 70px;
+      border-radius: 50% 50% 45% 45%;
+      background-color: red;
+      animation: flotar 10s linear infinite;
+    }
+
+    .globo::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: #333;
+      transform: translateX(-50%);
+    }
+
+    @keyframes flotar {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Varios globos con diferentes colores y velocidades */
+    .globo:nth-child(1) {
+      left: 10%;
+      background: #ff4d4d;
+      animation-duration: 9s;
+    }
+    .globo:nth-child(2) {
+      left: 25%;
+      background: #66ccff;
+      animation-duration: 11s;
+    }
+    .globo:nth-child(3) {
+      left: 40%;
+      background: #ffff66;
+      animation-duration: 8s;
+    }
+    .globo:nth-child(4) {
+      left: 60%;
+      background: #99ff99;
+      animation-duration: 10s;
+    }
+    .globo:nth-child(5) {
+      left: 80%;
+      background: #ffb3ff;
+      animation-duration: 12s;
+    }
+  </style>
+</head>
+<body>
+  <div class="globo"></div>
+  <div class="globo"></div>
+  <div class="globo"></div>
+  <div class="globo"></div>
+  <div class="globo"></div>
+
+  <h1>🎉 ¡Feliz Cumpleaños César Imanol! 🎉</h1>
+  <div class="pastel">🎂</div>
+  <p>Que tu día esté lleno de alegría, amor y muchas sonrisas, te desea con mucho cariño tu amiga MORITA</p>
+  <p>¡Disfrútalo al máximo, te quieroooooooo! 🥳</p>
+  <img src="img.1.png" alt="AMIGUITOOOOO">
+
+</body>
+</html> 
